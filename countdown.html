@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Pankaj Exam Dashboard</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #00f2ff;
+      --secondary: #00c3ff;
+      --accent: #bc13fe;
+      --glass: rgba(255, 255, 255, 0.08);
+      --border: rgba(255, 255, 255, 0.15);
+      --bg-gradient: radial-gradient(circle at top, #1a2a3a, #000000);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      color: white;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 15px; overflow-x: hidden;
+    }
+
+    /* --- STATUS BAR --- */
+    .status-bar {
+      display: flex; justify-content: space-between; width: 100%; max-width: 600px;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+      padding: 8px 15px; border-radius: 50px; border: 1px solid var(--border);
+      margin-bottom: 20px; font-size: 0.85rem; font-weight: 600;
+    }
+    .status-item { display: flex; align-items: center; gap: 6px; }
+    .battery-low { color: #ff4444; animation: blink 1s infinite; }
+    .battery-ok { color: #00ffaa; }
+    @keyframes blink { 50% { opacity: 0.5; } }
+
+    /* --- HEADERS --- */
+    h1 {
+      font-size: 1.6rem; text-transform: uppercase;
+      background: linear-gradient(90deg, #fff, var(--primary));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      font-weight: 800; margin-bottom: 5px; text-align: center;
+    }
+    h2 { font-size: 0.9rem; color: #bbb; margin-bottom: 15px; text-align: center; }
+
+    /* --- PROGRESS BAR --- */
+    .progress-box {
+      width: 100%; max-width: 600px; background: var(--glass);
+      padding: 15px; border-radius: 15px; border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .progress-info { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 8px; color: #ddd; }
+    .track { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+    .fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width 1s ease; }
+
+    /* --- SECTION TITLE --- */
+    .section-title {
+      font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;
+      color: #888; margin: 15px 0 5px 0; width: 100%; max-width: 600px; text-align: left;
+    }
+
+    /* --- MAIN COUNTDOWN GRID --- */
+    .countdown-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+      width: 100%; max-width: 600px; margin-bottom: 10px;
+    }
+    /* Milliseconds spans full width */
+    .countdown-grid .time-box:last-child { grid-column: span 3; }
+
+    .time-box {
+      background: var(--glass); border: 1px solid var(--border);
+      border-radius: 12px; padding: 10px; text-align: center;
+    }
+    .value {
+      font-family: 'Roboto Mono', monospace; font-size: 1.3rem; font-weight: 700;
+      color: var(--primary); text-shadow: 0 0 10px rgba(0, 242, 255, 0.4);
+    }
+    .label { font-size: 0.65rem; color: #aaa; text-transform: uppercase; margin-top: 2px; }
+
+    /* --- TOTAL STATS GRID (NEW FEATURE) --- */
+    .total-stats-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+      width: 100%; max-width: 600px; margin-bottom: 20px;
+    }
+    .total-box {
+      background: rgba(188, 19, 254, 0.1); /* Purple tint */
+      border: 1px solid rgba(188, 19, 254, 0.3);
+      border-radius: 12px; padding: 12px; text-align: center;
+    }
+    .total-box.full { grid-column: span 2; } /* Seconds spans full width */
+    .total-value {
+      font-family: 'Roboto Mono', monospace; font-size: 1.1rem; font-weight: 700; color: #e0aaff;
+    }
+    .total-label { font-size: 0.7rem; color: #d0d0d0; }
+
+    /* --- SUBJECT LIST --- */
+    .subject-list { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 600px; }
+    .subject-item {
+      background: linear-gradient(90deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      padding: 12px 15px; border-radius: 10px; border-left: 4px solid var(--secondary);
+      display: flex; justify-content: space-between; align-items: center;
+      cursor: pointer; font-size: 0.9rem;
+    }
+    .date-tag { font-family: 'Roboto Mono'; font-size: 0.75rem; color: var(--primary); background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 5px; }
+
+    /* --- DETAIL VIEW OVERLAY --- */
+    .detail-view {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: #0d121b; z-index: 100;
+      flex-direction: column; align-items: center; justify-content: center; padding: 20px;
+    }
+    .back-btn {
+      margin-bottom: 30px; padding: 10px 25px; border-radius: 30px;
+      background: var(--glass); color: white; border: 1px solid var(--border);
+      cursor: pointer; font-weight: 600;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="status-bar">
+    <div class="status-item"><span>📍 Rohtas:</span> <span id="weatherTemp">--°C</span></div>
+    <div class="status-item"><span id="batteryIcon">🔋</span> <span id="batteryPercent">--%</span></div>
+  </div>
+
+  <div id="homePage" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+    <h1>Mission 2026</h1>
+    <h2>Target: 02 Feb 2026</h2>
+
+    <div class="progress-box">
+      <div class="progress-info">
+        <span>Aaj ka Din (Today Used)</span>
+        <span id="dayPercent">0%</span>
+      </div>
+      <div class="track"><div class="fill" id="dayFill"></div></div>
+    </div>
+
+    <div class="section-title">Time Left</div>
+    <div class="countdown-grid">
+      <div class="time-box"><div class="value" id="cMonths">0</div><div class="label">Months</div></div>
+      <div class="time-box"><div class="value" id="cDays">0</div><div class="label">Days</div></div>
+      <div class="time-box"><div class="value" id="cHours">0</div><div class="label">Hours</div></div>
+      <div class="time-box"><div class="value" id="cMins">0</div><div class="label">Mins</div></div>
+      <div class="time-box"><div class="value" id="cSecs">0</div><div class="label">Secs</div></div>
+      <div class="time-box"><div class="value" id="cMs">000</div><div class="label">Milliseconds</div></div>
+    </div>
+
+    <div class="section-title">Deep Analysis (Total Time)</div>
+    <div class="total-stats-grid">
+      <div class="total-box"><div class="total-value" id="tHours">0</div><div class="total-label">Total Hours Left</div></div>
+      <div class="total-box"><div class="total-value" id="tMins">0</div><div class="total-label">Total Mins Left</div></div>
+      <div class="total-box full"><div class="total-value" id="tSecs">0</div><div class="total-label">Total Seconds Left</div></div>
+    </div>
+
+    <div class="section-title">Exam Schedule</div>
+    <div class="subject-list">
+      <div class="subject-item" onclick="openSubject('Biology 🌿', '2026-02-02')"><span>Biology</span> <span class="date-tag">02 Feb</span></div>
+      <div class="subject-item" onclick="openSubject('Maths 🧮', '2026-02-03')"><span>Maths</span> <span class="date-tag">03 Feb</span></div>
+      <div class="subject-item" onclick="openSubject('Physics ⚡', '2026-02-05')"><span>Physics</span> <span class="date-tag">05 Feb</span></div>
+      <div class="subject-item" onclick="openSubject('English ✍️', '2026-02-06')"><span>English</span> <span class="date-tag">06 Feb</span></div>
+      <div class="subject-item" onclick="openSubject('Chemistry 🧪', '2026-02-07')"><span>Chemistry</span> <span class="date-tag">07 Feb</span></div>
+      <div class="subject-item" onclick="openSubject('Hindi 📖', '2026-02-09')"><span>Hindi</span> <span class="date-tag">09 Feb</span></div>
+    </div>
+    
+    <div style="height: 30px;"></div> </div>
+
+  <div id="detailPage" class="detail-view">
+    <button class="back-btn" onclick="closeSubject()">❮ Back</button>
+    <h1 id="subTitle" style="margin-bottom: 30px; font-size: 1.8rem;">Subject</h1>
+    <div class="countdown-grid">
+      <div class="time-box"><div class="value" id="sDays">0</div><div class="label">Days</div></div>
+      <div class="time-box"><div class="value" id="sHours">0</div><div class="label">Hours</div></div>
+      <div class="time-box"><div class="value" id="sMins">0</div><div class="label">Mins</div></div>
+      <div class="time-box"><div class="value" id="sSecs">0</div><div class="label">Secs</div></div>
+    </div>
+  </div>
+
+  <script>
+    // --- SETUP ---
+    const examDate = new Date("2026-02-02T00:00:00");
+
+    // --- BATTERY ---
+    try {
+      navigator.getBattery().then(bat => {
+        const update = () => {
+          const l = Math.round(bat.level * 100);
+          document.getElementById('batteryPercent').innerText = l + "%";
+          document.getElementById('batteryPercent').className = l < 20 ? "battery-low" : "battery-ok";
+        };
+        update(); bat.addEventListener('levelchange', update);
+      });
+    } catch(e) { document.getElementById('batteryPercent').innerText = "N/A"; }
+
+    // --- WEATHER ---
+    fetch("https://api.open-meteo.com/v1/forecast?latitude=24.95&longitude=84.02&current_weather=true")
+      .then(res => res.json()).then(data => {
+        document.getElementById('weatherTemp').innerText = data.current_weather.temperature + "°C";
+      }).catch(() => document.getElementById('weatherTemp').innerText = "--");
+
+    // --- FORMAT NUMBER (Adds Commas: 12,000) ---
+    const fmt = (n) => n.toLocaleString('en-IN');
+
+    // --- TIMER LOGIC ---
+    function tick() {
+      const now = new Date();
+      const diff = examDate - now;
+
+      if (diff > 0) {
+        // 1. Standard Breakdown
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / 1000 / 60) % 60);
+        const s = Math.floor((diff / 1000) % 60);
+        const ms = Math.floor(diff % 1000);
+        
+        document.getElementById('cMonths').innerText = (d/30.44).toFixed(1);
+        document.getElementById('cDays').innerText = d;
+        document.getElementById('cHours').innerText = h;
+        document.getElementById('cMins').innerText = m;
+        document.getElementById('cSecs').innerText = s;
+        document.getElementById('cMs').innerText = ms.toString().padStart(3, '0');
+
+        // 2. TOTAL STATS (Jo tumne manga tha)
+        const totHrs = Math.floor(diff / (1000 * 60 * 60));
+        const totMins = Math.floor(diff / (1000 * 60));
+        const totSecs = Math.floor(diff / 1000);
+
+        document.getElementById('tHours').innerText = fmt(totHrs);
+        document.getElementById('tMins').innerText = fmt(totMins);
+        document.getElementById('tSecs').innerText = fmt(totSecs);
+      }
+
+      // 3. Day Progress
+      const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0,0,0);
+      const passed = now - start;
+      const percent = (passed / 86400000) * 100;
+      document.getElementById('dayFill').style.width = percent + "%";
+      document.getElementById('dayPercent').innerText = percent.toFixed(1) + "%";
+    }
+    setInterval(tick, 41);
+
+    // --- SUBJECT DETAILS ---
+    let subTimer;
+    function openSubject(name, dateStr) {
+      document.getElementById('homePage').style.display = 'none';
+      document.getElementById('detailPage').style.display = 'flex';
+      document.getElementById('subTitle').innerText = name;
+      
+      const target = new Date(dateStr);
+      if(subTimer) clearInterval(subTimer);
+      
+      subTimer = setInterval(() => {
+        const now = new Date();
+        const diff = target - now;
+        if (diff <= 0) return;
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / 1000 / 60) % 60);
+        const s = Math.floor((diff / 1000) % 60);
+        document.getElementById('sDays').innerText = d;
+        document.getElementById('sHours').innerText = h;
+        document.getElementById('sMins').innerText = m;
+        document.getElementById('sSecs').innerText = s;
+      }, 1000);
+    }
+
+    function closeSubject() {
+      if(subTimer) clearInterval(subTimer);
+      document.getElementById('detailPage').style.display = 'none';
+      document.getElementById('homePage').style.display = 'flex';
+    }
+  </script>
+  
+  <script>
+/* ========= GLOBAL VIBRATION ONLY ========= */
+
+// har click / tap par vibration
+document.addEventListener("click", function () {
+  if (navigator.vibrate) {
+    navigator.vibrate(40); // 40ms vibration
+  }
+}, true);
+
+</script>
+</body>
+</html>
