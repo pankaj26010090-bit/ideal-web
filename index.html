@@ -96,17 +96,17 @@
     }
 
     /* Hero Section */
-    #home {
-      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-                  url('https://picsum.photos/1200/600?random') no-repeat center/cover;
-      height: 90vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: white;
-      padding: 0 20px;
-      animation: fadeIn 2s ease;
+   #home {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url('https://picsum.photos/1200/600?random') no-repeat center/cover;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  padding: 0 20px;
+  animation: fadeIn 2s ease;
     }
 
     #home h1 {
@@ -263,9 +263,286 @@
   }
 }
 </style>
-  
-  
-  
+
+  <!-- ========== CEO PROFILE CARD STYLES ========== -->
+  <style>
+    /* CEO Modal Styles */
+    .ceo-modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .ceo-modal.show {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .ceo-modal-content {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+        max-width: 500px;
+        width: 100%;
+        animation: slideUp 0.4s ease;
+        position: relative;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .ceo-close-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        border: none;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        z-index: 10;
+    }
+
+    .ceo-close-btn:hover {
+        background: rgba(0, 0, 0, 0.9);
+        transform: rotate(90deg);
+    }
+
+    .ceo-profile-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        height: 120px;
+        position: relative;
+    }
+
+    .ceo-profile-pic {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        border: 5px solid white;
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        animation: pulse 3s infinite;
+    }
+
+    .ceo-profile-pic img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    .ceo-profile-info {
+        text-align: center;
+        padding: 80px 30px 30px;
+    }
+
+    .ceo-profile-info h1 {
+        font-size: 1.8em;
+        color: #333;
+        margin-bottom: 5px;
+        font-weight: 700;
+    }
+
+    .ceo-profile-info > p {
+        color: #667eea;
+        font-size: 1.1em;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .ceo-profile-tagline {
+        color: #666;
+        font-size: 0.95em;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .ceo-contact-info {
+        background: #f8f9ff;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+    }
+
+    .ceo-contact-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        padding: 8px;
+    }
+
+    .ceo-contact-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .ceo-contact-icon {
+        font-size: 1.4em;
+        margin-right: 12px;
+        width: 30px;
+    }
+
+    .ceo-contact-text {
+        flex: 1;
+        text-align: left;
+    }
+
+    .ceo-contact-text strong {
+        display: block;
+        color: #333;
+        font-size: 0.85em;
+        margin-bottom: 3px;
+    }
+
+    .ceo-contact-text span {
+        color: #667eea;
+        font-size: 0.95em;
+    }
+
+    .ceo-social-links {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .ceo-social-btn {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2em;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ceo-social-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .ceo-action-buttons {
+        display: flex;
+        gap: 10px;
+        padding: 0 30px 30px;
+    }
+
+    .ceo-btn {
+        flex: 1;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.95em;
+    }
+
+    .ceo-btn-primary {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .ceo-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+    }
+
+    .ceo-btn-secondary {
+        background: #f0f0f0;
+        color: #333;
+        border: 2px solid #667eea;
+    }
+
+    .ceo-btn-secondary:hover {
+        background: #667eea;
+        color: white;
+    }
+
+    .ceo-achievements {
+        background: #f8f9ff;
+        padding: 15px 30px;
+        border-top: 2px solid #e0e0e0;
+    }
+    
+    .ceo-achievement-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        font-size: 0.9em;
+    }
+
+    .ceo-achievement-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .ceo-achievement-item span {
+        color: #667eea;
+        font-weight: 700;
+        margin-right: 8px;
+    }
+
+    @media (max-width: 600px) {
+        .ceo-modal-content {
+            max-width: 95%;
+            margin: 20px;
+        }
+
+        .ceo-profile-pic {
+            width: 120px;
+            height: 120px;
+            top: 40px;
+        }
+
+        .ceo-profile-info {
+            padding: 75px 20px 20px;
+        }
+
+        .ceo-action-buttons {
+            flex-direction: column;
+        }
+
+        .ceo-btn {
+            width: 100%;
+        }
+    }
+  </style>
   
 </head>
 <body>
@@ -273,28 +550,35 @@
   <!-- Header -->
   <header>
     <nav>
-      <div class="logo">🌟 Pankaj Kumar 🌟</div>
+      <div class="logo">🌟 Pankaj jii 🌟</div>
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="Search menu...">
       </div>
       <ul id="menuList">
+        <li><a href="#" onclick="openCEOModal(); return false;">👨‍💼 CEO Profile</a></li>
         <li><a href="#home">Home</a></li>
         <li><a href="about.html">Mere Baare Mein</a></li>
-        <li><a href="pankajcv.html">Biodata 🫰</a></li>
+        <li><a href="pankajcv.html"> Biodata🫰</a></li>
         <li><a href="movie.html">Movies 🍿</a></li>
         <li><a href="books.html">12th Books</a></li>
+          <li><a href="https://techinaut.edu.in/all-student">computer all students</a></li>
         <li><a href="https://intermediate.biharboardonline.com/Exam26/StudentExamDummyCard.aspx">DUMMY ADMIT CARD</a></li>
         <li><a href="owner.html">Ownership📂📂</a></li>
         <li><a href="science.html">Science HuB 🧪</a></li>
         <li><a href="modelspaper.html">12th Models 🗞️ Paper</a></li>
-          <li><a href="disha.html">All Notes</a></li>
-          <li><a href="countdown.html">🧾exam rootin</a></li>
-          <li><a href="font.html">🅿️Font creater</a></li>
-          <li><a href="https://modyolo.com/">Mod APK 🚀 </a></li>
-          <li><a href="allphoto.html"> © </a></li>
-          <li><a href="12thactivitycopy.html">12th Activity Copy 📑</a></li>
-          <li><a href="ai.html"> Your friend 🧑‍🤝‍🧑</a></li>
-          
+        <li><a href="disha.html">All Notes</a></li>
+        <li><a href="countdown.html">🧾exam rootin</a></li>
+        <li><a href="font.html">🅿️Font creater</a></li>
+        <li><a href="https://modyolo.com/">Mod APK 🚀 </a></li>
+        <li><a href="allphoto.html"> © </a></li>
+        <li><a href="12thactivitycopy.html">12th Activity Copy 📑</a></li>
+        <li><a href="ai.html"> Your friend 🧑‍🤝‍🧑</a></li>
+        <li><a href="cuet-ug phy.html"> cuet-ug physics</a></li>
+        <li><a href="12th result.html"> 12th result </a></li>
+        <li><a href="https://drive.google.com/drive/folders/1JMxIoEtwsNviilwyP3IUyHrpqwpXB4Ks"> Cuet pyq </a></li>
+        <li><a href="https://drive.google.com/drive/folders/1gdL2khT1D7hGZaG457oIE-gjOpS4-5OM"> Current affairs of upcoming month</a></li>
+        <li><a href="https://drive.google.com/drive/folders/1JMxIoEtwsNviilwyP3IUyHrpqwpXB4Ks"> sample papers(2-5) </a></li>
+        <li><a href="location.html"> Location </a></li>
       </ul>
     </nav>
   </header>
@@ -302,140 +586,53 @@
   <!-- Hero Section -->
   <section id="home">
     <div>
-      <h1>Namaste🙏🏻, I am 👨🏻‍💻Pankaj</h1>
-      <p>❥___I___𝑨𝒍𝒘𝒂𝒚𝒔__𝑭𝒓𝒆𝒆_____𝑭𝒐𝒓___𝒀𝒐𝒖__😇___𓆩♥︎𓆪__P̴͈̫̣̀̓̂͂̾̚a̵̡̯̤̩͍̟̟̽̃́̿n̴̥̗͕̥̪̆̕ḱ̷͙̠͊̆͆̅ä̵͖͍̘́̆̂̃̏͑͘j̵͈̠͚̗͚̙́̕ 🎨✨</p>
-      <a href="#sciencehub" class="btn">🚀 Explore Science Hub</a>
+      <h1>Welcome to Pankaj Kumar's Portal</h1>
+      <p>Your Gateway to Academic Excellence & Success</p>
+      <a href="#sciencehub" class="btn">Explore Now</a>
     </div>
   </section>
 
-  <!-- Science Hub -->
-  <section id="sciencehub">
-    <h2>12th All 📚 Books</h2>
-    <div style="text-align:center;">
-      <p style="font-size:1.2em; color:#2e7d38;">Yahan se apna <b>Books</b> online dekh sakte hain 👇</p>
-      <a href="https://drive.google.com/drive/folders/1nSKjHeSzK8NLYqp3X1t1Ik265jq2UFrM" class="neon-btn">🧪 12th Science 📚 Books</a>
-      <div style="margin-top:18px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-        <button class="small-btn neon-btn" onclick="window.open('https://youtube.com/@pankajkumar-v7d8o','_blank')">📚 Study Help</button>
-        <button class="small-btn neon-btn" onclick="window.open('tel:+919162389933')">📞 Contact</button>
+  <!-- Password Modal (existing code) -->
+  <div id="pwModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1999; grid-place-items:center; padding:20px; box-sizing:border-box;">
+    <div style="background:white; padding:30px; border-radius:10px; max-width:400px; width:100%; box-shadow:0 4px 20px rgba(0,0,0,0.2);">
+      <h2 style="color:#333; margin-bottom:15px;">🔐 Bonafide Certificate Access</h2>
+      <p style="color:#666; margin-bottom:20px; font-size:0.95em;">यह protected content है। Password डालें:</p>
+      <input type="password" id="pwInput" placeholder="Password enter karein" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px; margin-bottom:15px; font-size:1em;">
+      <p id="pwErr" style="color:red; font-size:0.9em; margin-bottom:10px; display:none;"></p>
+      <div style="display:flex; gap:10px;">
+        <button id="pwSubmit" style="flex:1; padding:10px; background:#667eea; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:600;">Submit</button>
+        <button id="pwCancel" style="flex:1; padding:10px; background:#ddd; color:#333; border:none; border-radius:5px; cursor:pointer; font-weight:600;">Cancel</button>
+      </div>
+      <div style="margin-top:15px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button id="forgotBtn" style="flex:1; min-width:100px; padding:8px; background:#f0f0f0; border:1px solid #ddd; border-radius:5px; cursor:pointer; font-size:0.9em;">🤔 Forgot Password</button>
+        <button id="knowBtn" style="flex:1; min-width:100px; padding:8px; background:#f0f0f0; border:1px solid #ddd; border-radius:5px; cursor:pointer; font-size:0.9em;">📞 Know Password</button>
       </div>
     </div>
-  </section>
-  
-  
-  <!-- 🎓 Student Folder Section -->
-<section id="student" style="background: linear-gradient(135deg, #e8f5e9, #f1f8e9); border-radius: 15px; padding: 40px 20px; box-shadow: 0 0 25px rgba(0,0,0,0.1); margin: 40px auto; max-width: 1100px;">
-  <h2 style="text-align:center; color:#2e7d32; font-size:2.2em; text-shadow:1px 1px 3px rgba(0,0,0,0.2);">🎓 Student Section</h2>
-  <div style="text-align:center;">
-    <p style="font-size:1.2em; color:#2e7d32; margin-bottom:15px;">
-      Yahan se apna <b>Bonafide Certificate</b> online dekh sakte hain 👇
-    </p>
+  </div>
 
-    <!-- Main Bonafide Button -->
-    <a id="bonafideLink" href="#" class="btn online-bonafide-btn" style="display:inline-block; text-decoration:none; font-weight:bold;">
-       📂 <b>ONLINE BONAFIDE 🫣</b>
-    </a>
-
-    <!-- Control Buttons -->
-    <div style="margin-top:18px; display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap;">
-      <button id="forgotBtn" class="small-btn forgot-btn">🔑 Forgot / Help</button>
-      <button id="knowBtn" class="small-btn kp-btn">📞 KNOW PASSWORD</button>
+  <!-- Call Modal -->
+  <div id="callModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1999; grid-place-items:center; padding:20px; box-sizing:border-box;">
+    <div style="background:white; padding:30px; border-radius:10px; max-width:400px; width:100%; box-shadow:0 4px 20px rgba(0,0,0,0.2);">
+      <h2 style="color:#333; margin-bottom:15px;">📞 Contact Information</h2>
+      <p style="color:#666; margin-bottom:10px;"><strong>Phone:</strong> +91 91623 89933</p>
+      <p style="color:#666; margin-bottom:20px;"><strong>Email:</strong> pk1048030@gmail.com</p>
+      <button id="callCancel" style="width:100%; padding:10px; background:#667eea; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:600;">Close</button>
     </div>
   </div>
-</section>
 
-<!-- 🌟 Bonafide Glow Button CSS -->
-<style>
-  .online-bonafide-btn {
-    background: linear-gradient(90deg, #4CAF50, #81C784);
-    color: white;
-    border: none;
-    font-size: 1.1em;
-    padding: 12px 28px;
-    border-radius: 12px;
-    text-shadow: 0px 0px 4px #000;
-    box-shadow: 0 0 15px rgba(76, 175, 80, 0.4);
-    transition: all 0.4s ease-in-out;
-  }
-  .online-bonafide-btn:hover {
-    box-shadow: 0 0 25px rgba(76,175,80,0.8), 0 0 40px rgba(129,199,132,0.6);
-    transform: scale(1.07);
-    text-shadow: 0px 0px 8px #fff;
-  }
-
-  .small-btn {
-    padding: 10px 14px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:700;
-    border:1px solid rgba(0,0,0,0.06);
-    background:transparent;
-    transition:0.3s;
-  }
-  .small-btn:hover{
-    transform: translateY(-2px);
-    box-shadow:0 8px 18px rgba(0,0,0,0.08);
-  }
-  .kp-btn { background: #fff; color: #0b6623; }
-  .forgot-btn { color: #2e7d32; }
-  .modal-backdrop{
-    position:fixed; inset:0; display:none; place-items:center;
-    background:rgba(0,0,0,0.45); z-index:2000
-  }
-  .modal{
-    background:#fff; width:min(420px,92%);
-    border-radius:12px; padding:18px;
-    box-shadow:0 12px 40px rgba(10,10,10,0.2);
-  }
-  .modal h3{ margin:0 0 8px; color:#3f51b5; }
-  .modal p{ margin:0 0 12px; color:#444; }
-  .modal-actions{
-    display:flex; gap:8px; justify-content:flex-end; margin-top:12px
-  }
-  .err{ color:#b00020; font-size:0.95rem; margin-top:8px }
-</style>
-
-<!-- 🔐 Password Modal -->
-<div id="pwModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="pwTitle">
-  <div class="modal" role="document">
-    <h3 id="pwTitle">Password Maange ja rha hai</h3>
-    <p>Kripya box me  password daalein taaki aapka Bonafide folder open ho sake.</p>
-    <label for="pwInput" style="font-size:0.95rem; display:block; margin-bottom:6px">Password</label>
-    <input id="pwInput" class="pw-input" type="password" inputmode="numeric" autocomplete="one-time-code" style="width:100%; padding:10px 12px; font-size:1rem; border-radius:8px; border:1px solid #ddd;" />
-    <div id="hint" style="font-size:0.85rem; color:#555; margin-top:8px">Tip: Password numeric hai. Agar aap bhool gaye to "KNOW PASSWORD" par call karein.</div>
-    <div class="err" id="pwErr" aria-live="polite" style="display:none"></div>
-    <div class="modal-actions">
-      <button id="pwCancel" class="small-btn">Cancel</button>
-      <button id="pwSubmit" class="small-btn kp-btn">Open</button>
-    </div>
-  </div>
-</div>
-
-<!-- 📞 Call Confirmation Modal -->
-<div id="callModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="callTitle">
-  <div class="modal" role="document">
-    <h3 id="callTitle">Call — Pankaj जी</h3>
-    <p style="margin-bottom:8px">Tap the green button to call Pankaj जी. Aap phone par call accept karenge to baat hogi.</p>
-    <div style="display:flex; gap:10px; justify-content:flex-end; align-items:center">
-      <button id="callCancel" class="small-btn">Cancel</button>
-      <a id="callNow" class="small-btn kp-btn" href="tel:+919162389933">📲 Call Pankaj जी</a>
-    </div>
-  </div>
-</div>
-
-<!-- 🧠 Script Logic -->
-<script>
+  <!-- Password Modal Script -->
+  <script>
 (function(){
-  const PROTECTED_LINK = 'https://drive.google.com/drive/folders/1R1AO088f_kMYbOLyXRBH_-5N7Cl8pFuA';
-  const CORRECT_PW = '9631';
-  const HELP_LINK = 'https://sites.google.com/view/welcome-to-myfirst-site/birthday?authuser=3';
-  const PHONE = '+919162389933';
+  const CORRECT_PW = '12345';
+  const PROTECTED_LINK = 'https://example.com/bonafide';
+  const HELP_LINK = 'https://youtube.com/@pankajkumar-v7d8o';
 
-  const bonafideLink = document.getElementById('bonafideLink');
   const pwModal = document.getElementById('pwModal');
   const pwInput = document.getElementById('pwInput');
-  const pwErr = document.getElementById('pwErr');
-  const pwCancel = document.getElementById('pwCancel');
   const pwSubmit = document.getElementById('pwSubmit');
+  const pwCancel = document.getElementById('pwCancel');
+  const pwErr = document.getElementById('pwErr');
+  const bonafideLink = document.getElementById('bonafideLink');
   const forgotBtn = document.getElementById('forgotBtn');
   const knowBtn = document.getElementById('knowBtn');
   const callModal = document.getElementById('callModal');
@@ -443,17 +640,6 @@
 
   let attemptsLeft = 3;
   let lockedUntil = 0;
-
-  // 🔒 Bonafide click
-  bonafideLink.addEventListener('click', (e)=>{
-    e.preventDefault();
-    if(Date.now() < lockedUntil){
-      const rem = Math.ceil((lockedUntil - Date.now())/1000);
-      showPwError('Temporary lock. ' + rem + ' sec baad try karein.');
-      return;
-    }
-    showPwModal();
-  });
 
   function showPwModal(){
     pwErr.style.display = 'none';
@@ -503,28 +689,19 @@
   callModal.addEventListener('click', (e)=>{ if(e.target === callModal) callModal.style.display = 'none'; });
 })();
 </script>
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
     <section id="sciencehub" style="background: linear-gradient(135deg, #e8f5e9, #f1f8e9);">
   <h2>Dummy Admit card science arts  commerce</h2>
   <div style="text-align:center;">
     <p style="font-size:1.2em; color:#2e7d32;">
       Yahan se apna <b>Dummy admit card 2026 exam </b> online dekh sakte hain 👇
-    </p><!-- Same Style Button as Bonafide but NO PASSWORD -->
+    </p>
 <a href="https://intermediate.biharboardonline.com/Exam26/StudentExamDummyCard.aspx" 
    class="btn online-bonafide-btn" 
    style="text-decoration:none;">
    🧪 <b>Dummy Admit card science arts  commerce </b>
 </a>
 
-<!-- Forgot & Know Password style buttons (but changed meaning) -->
 <div style="margin-top:14px; display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap;">
   <button class="small-btn forgot-btn" onclick="window.open('https://youtube.com/@pankajkumar-v7d8o','_blank')">📚 Study Help</button>
   <button class="small-btn kp-btn" onclick="window.open('tel:+919162389933')">📞 Contact</button>
@@ -532,13 +709,6 @@
 
   </div>
     </section>
-    
-    
-    
-    
-    
-    
-    
     
     
     <!-- 12th Model Paper Section -->
@@ -552,12 +722,10 @@
       Yahan se apna <b>Stream</b> Model Paper download kar sakte hain 👇
     </p>
 
-    <!-- ✅ Clean Button -->
     <a href="modelspaper.html" class="neon-btn">
       🧪 <b>12th Model Paper</b>
     </a>
 
-    <!-- Small Buttons -->
     <div style="margin-top:18px; display:flex; gap:12px; justify-content:center; align-items:center; flex-wrap:wrap;">
       <button class="small-btn neon-btn" onclick="window.open('https://youtube.com/@pankajkumar-v7d8o','_blank')">📚 Study Help</button>
       <button class="small-btn neon-btn" onclick="window.open('tel:+919162389933')">📞 Contact</button>
@@ -662,16 +830,111 @@
     padding: 10px 22px;
   }
 </style>
-  
-  
-  
-  
-  
-  
-  
-  
 
   <footer>© 2025 Pankaj Kumar | Rang-Biranga Portfolio 🌈</footer>
+
+  <!-- ========== CEO PROFILE MODAL (COMPLETE) ========== -->
+  <div id="ceoModal" class="ceo-modal">
+    <div class="ceo-modal-content">
+        <button class="ceo-close-btn" onclick="closeCEOModal()">&times;</button>
+        
+        <div class="ceo-profile-header"></div>
+        
+        <div class="ceo-profile-pic">
+            <img src="/htdocs/pk.jpg" alt="Pankaj Kumar">
+        </div>
+        
+        <div class="ceo-profile-info">
+            <h1>👨‍💼 Pankaj Kumar</h1>
+            <p>Founder & CEO</p>
+            <div class="ceo-profile-tagline">
+                "शिक्षा के माध्यम से छात्रों को सशक्त बनाना। गुणवत्तापूर्ण शिक्षा सभी के लिए सुलभ बनाना।"
+            </div>
+            
+            <div class="ceo-contact-info">
+                <div class="ceo-contact-item">
+                    <div class="ceo-contact-icon">📞</div>
+                    <div class="ceo-contact-text">
+                        <strong>Phone</strong>
+                        <span>+91 91623 89933</span>
+                    </div>
+                </div>
+                
+                <div class="ceo-contact-item">
+                    <div class="ceo-contact-icon">✉️</div>
+                    <div class="ceo-contact-text">
+                        <strong>Email</strong>
+                        <span>pk1048030@gmail.com</span>
+                    </div>
+                </div>
+                
+                <div class="ceo-contact-item">
+                    <div class="ceo-contact-icon">📍</div>
+                    <div class="ceo-contact-text">
+                        <strong>Location</strong>
+                        <span>Bihar, India</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ceo-social-links">
+                <button class="ceo-social-btn" onclick="openLink('https://youtube.com/@pankajkumar-v7d8o')" title="YouTube">📺</button>
+                <button class="ceo-social-btn" onclick="openLink('https://www.facebook.com')" title="Facebook">f</button>
+                <button class="ceo-social-btn" onclick="openLink('https://www.instagram.com')" title="Instagram">📷</button>
+                <button class="ceo-social-btn" onclick="openLink('https://www.linkedin.com')" title="LinkedIn">💼</button>
+            </div>
+            
+            <div class="ceo-action-buttons">
+                <button class="ceo-btn ceo-btn-primary" onclick="callCEO()">📞 Call Now</button>
+                <button class="ceo-btn ceo-btn-secondary" onclick="emailCEO()">✉️ Message</button>
+            </div>
+            
+            <div class="ceo-achievements">
+                <div class="ceo-achievement-item"><span>⭐</span> 10+ Years in Education</div>
+                <div class="ceo-achievement-item"><span>🎓</span> 50,000+ Students Helped</div>
+                <div class="ceo-achievement-item"><span>🏆</span> Award Winning Platform</div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- CEO MODAL JAVASCRIPT -->
+  <script>
+    // CEO Modal Functions
+    function openCEOModal() {
+        document.getElementById('ceoModal').classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeCEOModal() {
+        document.getElementById('ceoModal').classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+
+    document.getElementById('ceoModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeCEOModal();
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeCEOModal();
+        }
+    });
+
+    function callCEO() {
+        window.location.href = 'tel:+919162389933';
+    }
+
+    function emailCEO() {
+        window.location.href = 'mailto:pk1048030@gmail.com?subject=Hello%20Pankaj';
+    }
+
+    function openLink(url) {
+        window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  </script>
 
   <!-- Search Function -->
   <script>
